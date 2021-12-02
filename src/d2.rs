@@ -1017,7 +1017,7 @@ impl FromStr for Command {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let s_split: Vec<&str> = s.split_whitespace().collect();
         let command_name = s_split[0];
-        let num_units = s_split[1].parse::<u32>().unwrap();
+        let num_units: u32 = s_split[1].parse().unwrap();
 
         match command_name {
             "forward" => Ok(Command::Forward(num_units)),

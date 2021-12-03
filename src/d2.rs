@@ -1043,5 +1043,18 @@ pub fn solution_1() -> String {
 }
 
 pub fn solution_2() -> String {
-    String::from("TODO")
+    let commands = INPUT.iter().map(|&c| Command::from_str(c).unwrap());
+
+    let (mut horizontal_position, mut depth, mut aim) = (0, 0, 0);
+    for command in commands {
+        match command {
+            Command::Forward(num_units) => {
+                horizontal_position += num_units;
+                depth += num_units * aim
+            }
+            Command::Down(num_units) => aim += num_units,
+            Command::Up(num_units) => aim -= num_units,
+        }
+    }
+    (horizontal_position * depth).to_string()
 }

@@ -135,5 +135,14 @@ pub fn solution_1() -> String {
 }
 
 pub fn solution_2() -> String {
-    String::from("TODO")
+    let mut num_depth_increases: u32 = 0;
+    for i in 3..INPUT.len() {
+        // XXX This is not how a sliding window should be done, but it's good enough here.
+        let current_window_sum = INPUT[i] + INPUT[i - 1] + INPUT[i - 2];
+        let previous_window_sum = INPUT[i - 1] + INPUT[i - 2] + INPUT[i - 3];
+        if current_window_sum > previous_window_sum {
+            num_depth_increases += 1;
+        }
+    }
+    num_depth_increases.to_string()
 }

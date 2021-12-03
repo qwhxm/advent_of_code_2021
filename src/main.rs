@@ -2,8 +2,9 @@
 
 mod d1;
 mod d2;
+mod d3;
 
-use d2::{solution_1, solution_2};
+use d3::{solution_1, solution_2};
 
 fn main() {
     println!("Part 1 solution: {}", solution_1());

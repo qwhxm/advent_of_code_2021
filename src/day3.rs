@@ -1019,6 +1019,8 @@ pub fn solution_1() -> String {
         .collect();
     let gamma_rate = u32::from_str_radix(&gamma_rate_as_bit_string, 2).unwrap();
 
+    // XXX It would be faster to just invert all bits in gamma_rate_as_bit_string, but this is
+    //     simpler to understand.
     let epsilon_rate_as_bit_string: String = frequencies_of_1_bits
         .map(|freq| if freq > 500 { '0' } else { '1' })
         .iter()

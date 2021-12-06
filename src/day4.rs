@@ -618,8 +618,8 @@ struct Board {
 impl Board {
     fn from_rows(rows: &[&str; 5]) -> Board {
         let mut grid = [[0u32; 5]; 5];
-        for (r, &row) in rows.iter().enumerate() {
-            let row_split: Vec<&str> = row.split_whitespace().collect();
+        for r in 0..5 {
+            let row_split: Vec<&str> = rows[r].split_whitespace().collect();
             for c in 0..5 {
                 grid[r][c] = (&row_split[c]).parse().unwrap();
             }
@@ -702,7 +702,7 @@ pub fn solution_1() -> String {
             }
         }
     }
-    String::from("No board won")
+    panic!("No board won");
 }
 
 pub fn solution_2() -> String {
@@ -715,6 +715,11 @@ pub fn solution_2() -> String {
         }
 
         for (i, board) in boards.iter().enumerate() {
+            if won[i] {
+                // To avoid re-checking boards that already won.
+                continue;
+            }
+
             if board.has_won() {
                 won[i] = true;
 
@@ -726,5 +731,5 @@ pub fn solution_2() -> String {
             }
         }
     }
-    String::from("Not all boards won")
+    panic!("Not all boards won");
 }

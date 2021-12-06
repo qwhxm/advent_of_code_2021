@@ -577,17 +577,17 @@ impl Line {
 pub fn solution_1() -> String {
     let lines = INPUT.iter().map(|&l| Line::from_str(l).unwrap());
 
-    let mut covering_lines_per_point: HashMap<Point, u32> = HashMap::new();
+    let mut num_covering_lines_per_point: HashMap<Point, u32> = HashMap::new();
     for line in lines {
         if line.is_horizontal() || line.is_vertical() {
             for point in line.as_points() {
-                *covering_lines_per_point.entry(point).or_insert(0) += 1;
+                *num_covering_lines_per_point.entry(point).or_insert(0) += 1;
             }
         }
     }
 
     let mut num_points_covered_by_at_least_2_lines = 0u32;
-    for (_, &num_covering_lines) in &covering_lines_per_point {
+    for (_, &num_covering_lines) in &num_covering_lines_per_point {
         if num_covering_lines >= 2 {
             num_points_covered_by_at_least_2_lines += 1;
         }

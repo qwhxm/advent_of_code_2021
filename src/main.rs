@@ -4,8 +4,9 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
-use day4::{solution_1, solution_2};
+use day5::{solution_1, solution_2};
 
 fn main() {
     println!("Part 1 solution: {}", solution_1());

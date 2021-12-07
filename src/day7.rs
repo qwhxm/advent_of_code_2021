@@ -87,7 +87,7 @@ fn total_fuel_to_align_on(
 }
 
 pub fn solution_1() -> String {
-    let possible_positions = 0..INPUT.iter().max().unwrap() + 1;
+    let possible_positions = 0..=*INPUT.iter().max().unwrap();
 
     let mut total_fuel_per_target_position: HashMap<i32, i32> = HashMap::new();
     for p in possible_positions {
@@ -102,7 +102,7 @@ pub fn solution_1() -> String {
 }
 
 pub fn solution_2() -> String {
-    let possible_positions = 0..INPUT.iter().max().unwrap() + 1;
+    let possible_positions = 0..=*INPUT.iter().max().unwrap();
 
     let mut total_fuel_per_target_position: HashMap<i32, i32> = HashMap::new();
     for p in possible_positions {

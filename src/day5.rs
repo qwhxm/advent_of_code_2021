@@ -556,7 +556,7 @@ impl Line {
             let y = self.p1.y; // Same y as for p2.
 
             let mut points = Vec::new();
-            for x in min(self.p1.x, self.p2.x)..max(self.p1.x, self.p2.x) + 1 {
+            for x in min(self.p1.x, self.p2.x)..=max(self.p1.x, self.p2.x) {
                 points.push(Point { x, y })
             }
             points
@@ -564,7 +564,7 @@ impl Line {
             let x = self.p1.x; // Same x as for p2.
 
             let mut points = Vec::new();
-            for y in min(self.p1.y, self.p2.y)..max(self.p1.y, self.p2.y) + 1 {
+            for y in min(self.p1.y, self.p2.y)..=max(self.p1.y, self.p2.y) {
                 points.push(Point { x, y })
             }
             points

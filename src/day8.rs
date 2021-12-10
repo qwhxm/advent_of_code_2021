@@ -1,4 +1,9 @@
 //! <https://adventofcode.com/2021/day/8>
+//!
+//! I tried brute force and failed - wrong (too simple) implementation ran for several seconds,
+//! so I didn't even do a correct brute force implementation. But apparently this is easily
+//! brute-forceable (reddit.com/r/adventofcode/comments/rbj87a/comment/hnost1p) - sorted strings
+//! are faster than using HashMaps for everything, clearly.
 
 use std::collections::{HashMap, HashSet};
 use std::str::FromStr;
@@ -246,9 +251,10 @@ pub fn solution_1() -> String {
     num_1s_4s_7s_and_8s.to_string()
 }
 
-// XXX This function would ideally return HashMap<Digit, u8>, but Digit (= HashSet) can't be used
-//     as key type.
-fn deduce_digits(all_digits: Vec<Digit>) -> Vec<(Digit, u8)> {
+/// Deduces which digit is which.
+///
+/// In the returned array, digit at index 0 is 0, ..., digit at index 9 is 9.
+fn deduce_digits(all_digits: Vec<Digit>) -> [Digit; 10] {
     let mut digits_by_num_segments: HashMap<usize, Vec<Digit>> = HashMap::new();
     for digit in all_digits {
         let num_segments = digit.len();
@@ -257,8 +263,6 @@ fn deduce_digits(all_digits: Vec<Digit>) -> Vec<(Digit, u8)> {
             .or_insert(Vec::new())
             .push(digit);
     }
-
-    let mut deduced_digits: Vec<(Digit, u8)> = Vec::new();
 
     // 1 is the only digit with 2 segments.
     let deduced_1 = &digits_by_num_segments[&2][0];
@@ -310,17 +314,18 @@ fn deduce_digits(all_digits: Vec<Digit>) -> Vec<(Digit, u8)> {
         .find(|d| *d != deduced_3 && *d != deduced_5)
         .unwrap();
 
-    deduced_digits.push((deduced_0.clone(), 0));
-    deduced_digits.push((deduced_1.clone(), 1));
-    deduced_digits.push((deduced_2.clone(), 2));
-    deduced_digits.push((deduced_3.clone(), 3));
-    deduced_digits.push((deduced_4.clone(), 4));
-    deduced_digits.push((deduced_5.clone(), 5));
-    deduced_digits.push((deduced_6.clone(), 6));
-    deduced_digits.push((deduced_7.clone(), 7));
-    deduced_digits.push((deduced_8.clone(), 8));
-    deduced_digits.push((deduced_9.clone(), 9));
-    deduced_digits
+    [
+        deduced_0.clone(),
+        deduced_1.clone(),
+        deduced_2.clone(),
+        deduced_3.clone(),
+        deduced_4.clone(),
+        deduced_5.clone(),
+        deduced_6.clone(),
+        deduced_7.clone(),
+        deduced_8.clone(),
+        deduced_9.clone(),
+    ]
 }
 
 fn value_from_digits(decoded_digits: &Vec<u8>) -> u32 {
@@ -342,7 +347,7 @@ pub fn solution_2() -> String {
         let decoded_output_digits: Vec<u8> = entry
             .output_digits
             .iter()
-            .map(|d| deduced_digits.iter().find(|dd| dd.0 == *d).unwrap().1)
+            .map(|d| deduced_digits.iter().position(|x| x == d).unwrap() as u8)
             .collect();
 
         output_values.push(value_from_digits(&decoded_output_digits))

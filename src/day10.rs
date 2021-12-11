@@ -125,6 +125,9 @@ fn first_incorrect_closing_char(line: &str) -> Option<char> {
         if is_opening_paren(char) {
             open_parens.push(char)
         } else {
+            // XXX It is safe to call open_parens.pop().unwrap() here, because of guarantees on the
+            //     input - there will never be missing opening parentheses, only missing closing
+            //     parentheses ("Some lines are incomplete, (...) others are corrupted").
             let expected_closing_paren =
                 CLOSING_PAREN_FOR_OPENING_PAREN[&open_parens.pop().unwrap()];
             if char != expected_closing_paren {

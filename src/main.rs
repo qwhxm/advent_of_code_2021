@@ -1,15 +1,15 @@
 #![allow(dead_code)] // Because all modules except the one used in main() are dead code.
 
-mod day1;
+mod day01;
+mod day02;
+mod day03;
+mod day04;
+mod day05;
+mod day06;
+mod day07;
+mod day08;
+mod day09;
 mod day10;
-mod day2;
-mod day3;
-mod day4;
-mod day5;
-mod day6;
-mod day7;
-mod day8;
-mod day9;
 
 use day10::{solution_1, solution_2};
 

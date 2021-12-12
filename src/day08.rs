@@ -292,7 +292,7 @@ fn deduce_digits(all_digits: Vec<Digit>) -> [Digit; 10] {
     // ...and 0 is the remaining 6-segment digit.
     let deduced_0 = digits_by_num_segments[&6]
         .iter()
-        .find(|d| *d != deduced_9 && *d != deduced_6)
+        .find(|&d| d != deduced_9 && d != deduced_6)
         .unwrap();
 
     // From the 5-segment digits,
@@ -311,7 +311,7 @@ fn deduce_digits(all_digits: Vec<Digit>) -> [Digit; 10] {
     // ...and 2 is the remaining 6-segment digit.
     let deduced_2 = digits_by_num_segments[&5]
         .iter()
-        .find(|d| *d != deduced_3 && *d != deduced_5)
+        .find(|&d| d != deduced_3 && d != deduced_5)
         .unwrap();
 
     [
@@ -331,7 +331,7 @@ fn deduce_digits(all_digits: Vec<Digit>) -> [Digit; 10] {
 fn value_from_digits(decoded_digits: &Vec<u8>) -> u32 {
     decoded_digits
         .iter()
-        .map(|d| char::from_digit(*d as u32, 10).unwrap())
+        .map(|&d| char::from_digit(d as u32, 10).unwrap())
         .collect::<String>()
         .parse()
         .unwrap()

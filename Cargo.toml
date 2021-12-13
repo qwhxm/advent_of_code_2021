@@ -8,3 +8,6 @@ edition = "2021"
 [dependencies]
 grid = "0.6.0"
 lazy_static = "1.4.0"
+
+[profile.dev]
+incremental = false

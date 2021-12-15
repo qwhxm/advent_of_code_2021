@@ -21,15 +21,13 @@ const INPUT_RULES: [&str; 100] = [
     "SN -> B", "HB -> P", "PV -> S", "KN -> S",
 ];
 
-type ElementPair = (char, char);
-
 struct InsertionRule {
-    start_pair: ElementPair,
-    result_pairs: [ElementPair; 2],
+    start_pair: (char, char),
+    element_to_insert: char,
 }
 
 struct Polymer {
-    element_pairs_quantities: HashMap<ElementPair, u128>,
+    element_pairs_quantities: HashMap<(char, char), u128>,
     /// First working solution did not have this field. Element quantities can *almost* be
     /// calculated from [Polymer::element_pairs_quantities] - almost, but not quite, because all
     /// elements are represented in 2 pairs, except for the first and last element. So extra data
@@ -47,16 +45,10 @@ impl FromStr for InsertionRule {
             s_split[0].chars().collect::<Vec<_>>()[0],
             s_split[0].chars().collect::<Vec<_>>()[1],
         );
-        let inserted_element = s_split[2].chars().next().unwrap();
-
-        let result_pairs = [
-            (start_pair.0, inserted_element),
-            (inserted_element, start_pair.1),
-        ];
-
+        let element_to_insert = s_split[2].chars().next().unwrap();
         Ok(InsertionRule {
             start_pair,
-            result_pairs,
+            element_to_insert,
         })
     }
 }
@@ -87,14 +79,16 @@ impl Polymer {
 
         for (&pair, &quantity) in &self.element_pairs_quantities {
             if let Some(rule) = rules.iter().find(|r| r.start_pair == pair) {
-                for result_pair in &rule.result_pairs {
-                    *new_element_pairs_quantities
-                        .entry(result_pair.clone())
-                        .or_insert(0) += quantity;
-                }
+                *new_element_pairs_quantities
+                    .entry((pair.0, rule.element_to_insert))
+                    .or_insert(0) += quantity;
+                *new_element_pairs_quantities
+                    .entry((rule.element_to_insert, pair.1))
+                    .or_insert(0) += quantity;
 
-                let inserted_element = rule.result_pairs[0].1;
-                *new_elements_quantities.entry(inserted_element).or_insert(0) += quantity;
+                *new_elements_quantities
+                    .entry(rule.element_to_insert)
+                    .or_insert(0) += quantity;
             }
         }
 

@@ -15,10 +15,19 @@ enum Operation {
 }
 
 enum Packet {
-    /// (version, value)
-    Literal(u8, u128),
-    /// (version, operation, sub-packets)
-    Operator(u8, Operation, Vec<Packet>),
+    Literal(
+        /// Version.
+        u8,
+        /// Value.
+        u128,
+    ),
+    Operator(
+        /// Version.
+        u8,
+        Operation,
+        /// Sub-packets.
+        Vec<Packet>,
+    ),
 }
 
 impl Operation {

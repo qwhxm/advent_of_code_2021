@@ -587,7 +587,7 @@ pub fn solution_1() -> String {
     }
 
     let mut num_points_covered_by_at_least_2_lines = 0u32;
-    for (_, &num_covering_lines) in &num_covering_lines_per_point {
+    for &num_covering_lines in num_covering_lines_per_point.values() {
         if num_covering_lines >= 2 {
             num_points_covered_by_at_least_2_lines += 1;
         }

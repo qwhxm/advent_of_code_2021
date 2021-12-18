@@ -621,7 +621,7 @@ impl Board {
         for r in 0..5 {
             let row_split: Vec<&str> = rows[r].split_whitespace().collect();
             for c in 0..5 {
-                grid[r][c] = (&row_split[c]).parse().unwrap();
+                grid[r][c] = row_split[c].parse().unwrap();
             }
         }
 

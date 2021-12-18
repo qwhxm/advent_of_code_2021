@@ -73,7 +73,7 @@ impl FromStr for Polymer {
 }
 
 impl Polymer {
-    fn do_pair_insertion(&mut self, rules: &Vec<InsertionRule>) {
+    fn do_pair_insertion(&mut self, rules: &[InsertionRule]) {
         let mut new_element_pairs_quantities = HashMap::new();
         let mut new_elements_quantities = self.elements_quantities.clone();
 

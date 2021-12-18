@@ -218,7 +218,7 @@ pub fn solution_2() -> String {
         .map(|lp| basin_for_low_point(lp, &heightmap));
 
     let mut basin_sizes: Vec<usize> = basins.map(|b| b.len()).collect();
-    basin_sizes.sort();
+    basin_sizes.sort_unstable();
     basin_sizes.reverse();
 
     (basin_sizes[0] * basin_sizes[1] * basin_sizes[2]).to_string()

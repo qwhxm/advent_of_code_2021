@@ -248,7 +248,7 @@ impl Display for Sheet {
                     false => write!(f, " ")?,
                 }
             }
-            write!(f, "\n")?;
+            writeln!(f)?;
         }
         Ok(())
     }

@@ -260,7 +260,7 @@ fn deduce_digits(all_digits: Vec<Digit>) -> [Digit; 10] {
         let num_segments = digit.len();
         digits_by_num_segments
             .entry(num_segments)
-            .or_insert(Vec::new())
+            .or_insert_with(Vec::new)
             .push(digit);
     }
 
@@ -328,7 +328,7 @@ fn deduce_digits(all_digits: Vec<Digit>) -> [Digit; 10] {
     ]
 }
 
-fn value_from_digits(decoded_digits: &Vec<u8>) -> u32 {
+fn value_from_digits(decoded_digits: &[u8]) -> u32 {
     decoded_digits
         .iter()
         .map(|&d| char::from_digit(d as u32, 10).unwrap())

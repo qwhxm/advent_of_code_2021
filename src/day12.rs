@@ -57,11 +57,11 @@ impl CaveGraph {
 
             adjacency_list
                 .entry(cave_1.clone())
-                .or_insert(Vec::new())
+                .or_insert_with(Vec::new)
                 .push(cave_2.clone());
             adjacency_list
                 .entry(cave_2)
-                .or_insert(Vec::new())
+                .or_insert_with(Vec::new)
                 .push(cave_1);
         }
         CaveGraph { adjacency_list }

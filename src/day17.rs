@@ -52,8 +52,8 @@ impl ProbeShotSimulation {
         self.max_y_coord = cmp::max(self.max_y_coord, self.probe_position.y);
     }
 
-    /// Runs this simulation until the target area is either hit (then returns true) or overshot
-    /// (then returns false).
+    /// Runs this simulation until the target area is either hit (then returns `true`) or overshot
+    /// (then returns `false`).
     fn run(&mut self) -> bool {
         loop {
             self.tick();

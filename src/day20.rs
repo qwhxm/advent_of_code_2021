@@ -115,7 +115,7 @@ enum Colour {
 
 struct Image {
     middle_pixels: Grid<Colour>,
-    /// All pixels surrounding [middle_pixels] are of this colour.
+    /// All pixels surrounding [Image::middle_pixels] are of this colour.
     surrounding_colour: Colour,
 }
 

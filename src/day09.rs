@@ -141,7 +141,7 @@ fn adjacent_coordinates(coords: &Coordinates) -> impl Iterator<Item = Coordinate
 
     vec![adjacent_up, adjacent_down, adjacent_left, adjacent_right]
         .into_iter()
-        .filter(|c| are_valid(c))
+        .filter(are_valid)
 }
 
 fn is_low_point(coords: &Coordinates, heightmap: &Heightmap) -> bool {

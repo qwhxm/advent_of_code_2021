@@ -1,4 +1,8 @@
 //! <https://adventofcode.com/2021/day/18>
+//!
+//! Should have stuck with the tree-based approach, would be more elegant and robust (although
+//! parent references are really annoying with all the [std::rc::Rc]/[std::rc::Weak]/
+//! [std::cell::RefCell] stuff).
 
 use std::cmp;
 use std::ops::{Range, RangeInclusive};

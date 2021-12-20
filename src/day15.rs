@@ -115,11 +115,7 @@ impl Cavern {
         let width = rows[0].len();
         let height = rows.len();
         let data = rows
-            .iter()
-            .fold(String::new(), |mut acc, s| {
-                acc.push_str(s);
-                acc
-            })
+            .join("")
             .chars()
             .map(|c| c.to_digit(10).unwrap())
             .collect();

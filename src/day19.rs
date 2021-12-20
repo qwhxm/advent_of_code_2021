@@ -828,8 +828,8 @@ fn parse_beacons(input_beacons: &[&str]) -> HashMap<ScannerId, Vec<Point3<f64>>>
 /// Only considers rotations of some integer number of 90-degree turns around all of the x, y, and
 /// z axes, as per puzzle specification.
 fn try_match(
-    beacons_relative: &Vec<Point3<f64>>,
-    beacons_absolute: &Vec<Point3<f64>>,
+    beacons_relative: &[Point3<f64>],
+    beacons_absolute: &[Point3<f64>],
 ) -> Option<IsometryMatrix3<f64>> {
     // Try all possible rotations...
     for dir in DIRECTIONS.iter() {

@@ -1,4 +1,6 @@
 //! <https://adventofcode.com/2021/day/15>
+//!
+//! Part 2 takes quite a few seconds to run without optimizations, but with them it's OK.
 
 use simple_grid::{Grid, GridIndex};
 use std::collections::HashMap;
@@ -199,5 +201,26 @@ pub fn solution_1() -> String {
 }
 
 pub fn solution_2() -> String {
-    "TODO".to_string()
+    let cavern_tile = Cavern::from_rows(&INPUT);
+
+    let mut cavern = Cavern {
+        grid: Grid::new_default(cavern_tile.grid.width() * 5, cavern_tile.grid.height() * 5),
+    };
+    for r in 0..cavern.grid.width() {
+        for c in 0..cavern.grid.height() {
+            let risk_in_original_tile = cavern_tile.grid
+                [GridIndex::new(c % cavern_tile.grid.width(), r % cavern_tile.grid.height())];
+            let risk_increase = c / cavern_tile.grid.width() + r / cavern_tile.grid.height();
+            let risk = (risk_in_original_tile + risk_increase as u32 - 1) % 9 + 1;
+
+            cavern.grid[GridIndex::new(c, r)] = risk;
+        }
+    }
+
+    cavern
+        .lowest_risk(
+            GridIndex::new(0, 0),
+            GridIndex::new(cavern.grid.width() - 1, cavern.grid.height() - 1),
+        )
+        .to_string()
 }

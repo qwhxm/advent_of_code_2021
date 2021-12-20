@@ -132,7 +132,7 @@ impl Cavern {
     /// interpreting the cavern as a weighted graph where:
     /// * Nodes are grid indices.
     /// * Edges connect adjacent indices.
-    /// * Weight of each edge is equal to risk level of the tail node.
+    /// * Weight of each edge is equal to risk level of the head node.
     fn successors(&self, node: GridIndex) -> impl Iterator<Item = (GridIndex, u32)> + '_ {
         fn is_valid(proto_index: (i32, i32), grid: &Grid<u32>) -> bool {
             (0..grid.width()).contains(&(proto_index.0 as usize))

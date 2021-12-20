@@ -1,6 +1,7 @@
 //! <https://adventofcode.com/2021/day/12>
 //!
-//! Part 2 takes a few seconds to run. Obvious optimizations would be:
+//! Part 2 takes a few seconds to run (without optimizations, with them it's OK).
+//! Obvious improvements to increase performance would be:
 //! * Don't produce a vector of all paths, just calculate the number of paths (as asked).
 //! * Don't even have a vector of paths - one path is enough, it can be used globally and pushed to/
 //!   popped from through the recursive calls. (But then you have a global mutable variable :/.)

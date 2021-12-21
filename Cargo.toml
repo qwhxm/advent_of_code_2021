@@ -10,6 +10,7 @@ grid = "0.6.0" # simple-grid is better.
 lazy_static = "1.4.0"
 nalgebra = "0.29.0"
 simple-grid = "2.1.1"
+streaming-stats = "0.2"
 
 [profile.dev]
 incremental = false

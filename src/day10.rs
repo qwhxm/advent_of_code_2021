@@ -113,6 +113,8 @@ lazy_static! {
         HashMap::from([('(', ')'), ('[', ']'), ('{', '}'), ('<', '>'),]);
     static ref SYNTAX_ERROR_SCORE_PER_ILLEGAL_CHAR: HashMap<char, u32> =
         HashMap::from([(')', 3), (']', 57), ('}', 1197), ('>', 25137),]);
+    static ref AUTOCOMPLETE_SCORE_PER_CLOSING_PAREN: HashMap<char, u64> =
+        HashMap::from([(')', 1), (']', 2), ('}', 3), ('>', 4),]);
 }
 
 fn is_opening_paren(char: char) -> bool {
@@ -125,9 +127,9 @@ fn first_incorrect_closing_char(line: &str) -> Option<char> {
         if is_opening_paren(char) {
             open_parens.push(char)
         } else {
-            // XXX It is safe to call open_parens.pop().unwrap() here, because of guarantees on the
-            //     input - there will never be missing opening parentheses, only missing closing
-            //     parentheses ("Some lines are incomplete, (...) others are corrupted").
+            // XXX It is safe to call `open_parens.pop().unwrap()` here, because of guarantees on
+            //     the input - there will never be missing opening parentheses, only missing
+            //     closing parentheses ("Some lines are incomplete, (...) others are corrupted").
             let expected_closing_paren =
                 CLOSING_PAREN_FOR_OPENING_PAREN[&open_parens.pop().unwrap()];
             if char != expected_closing_paren {
@@ -148,6 +150,46 @@ pub fn solution_1() -> String {
     total_syntax_error_score.to_string()
 }
 
+/// Returns the string of closing parentheses needed to complete the given line.
+///
+/// `line` must be an incomplete line (not corrupted).
+fn completion_string(line: &str) -> Vec<char> {
+    let mut open_parens: Vec<char> = Vec::new();
+    for char in line.chars() {
+        if is_opening_paren(char) {
+            open_parens.push(char);
+        } else {
+            open_parens.pop();
+        }
+    }
+
+    open_parens
+        .iter()
+        .map(|p| CLOSING_PAREN_FOR_OPENING_PAREN[p])
+        .rev()
+        .collect()
+}
+
+fn autocomplete_score(completion_string: &[char]) -> u64 {
+    let mut score = 0;
+    for paren in completion_string {
+        score *= 5;
+        score += AUTOCOMPLETE_SCORE_PER_CLOSING_PAREN[paren];
+    }
+    score
+}
+
 pub fn solution_2() -> String {
-    "TODO".to_string()
+    let mut autocomplete_scores = Vec::new();
+    for line in INPUT {
+        if first_incorrect_closing_char(line) != None {
+            continue;
+        }
+
+        autocomplete_scores.push(autocomplete_score(&completion_string(line)));
+    }
+
+    stats::median(autocomplete_scores.into_iter())
+        .unwrap()
+        .to_string()
 }

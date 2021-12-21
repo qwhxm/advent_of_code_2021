@@ -175,7 +175,10 @@ pub fn solution_1() -> String {
 fn basin_for_low_point(low_point: &Coordinates, heightmap: &Heightmap) -> HashSet<Coordinates> {
     /// Returns all coordinates reachable from `initial_coords`, using breadth-first search with
     /// the given successor function.
-    fn bfs<F, I>(initial_coords: &Coordinates, successors: F) -> HashSet<Coordinates>
+    fn bfs_connected_component<F, I>(
+        initial_coords: &Coordinates,
+        successors: F,
+    ) -> HashSet<Coordinates>
     where
         F: Fn(&Coordinates) -> I,
         I: IntoIterator<Item = Coordinates>,
@@ -195,7 +198,7 @@ fn basin_for_low_point(low_point: &Coordinates, heightmap: &Heightmap) -> HashSe
         seen
     }
 
-    bfs(low_point, |c| {
+    bfs_connected_component(low_point, |c| {
         adjacent_coordinates(c).filter(|ac| heightmap.height_at(ac) != 9)
     })
 }

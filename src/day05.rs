@@ -509,8 +509,8 @@ const INPUT: [&str; 500] = [
 
 #[derive(Eq, PartialEq, Hash)]
 struct Point {
-    x: u32,
-    y: u32,
+    x: i32,
+    y: i32,
 }
 
 struct Line {
@@ -569,7 +569,20 @@ impl Line {
             }
             points
         } else {
-            panic!("Only horizontal and vertical lines supported");
+            // Diagonal line (because of guarantees on the input).
+            let mut points = Vec::new();
+            let (mut x, mut y) = (self.p1.x, self.p1.y);
+            loop {
+                points.push(Point { x, y });
+
+                if (Point { x, y }) == self.p2 {
+                    break;
+                }
+
+                x += if self.p2.x > self.p1.x { 1 } else { -1 };
+                y += if self.p2.y > self.p1.y { 1 } else { -1 };
+            }
+            points
         }
     }
 }
@@ -586,14 +599,12 @@ pub fn solution_1() -> String {
         }
     }
 
-    let mut num_points_covered_by_at_least_2_lines = 0u32;
-    for &num_covering_lines in num_covering_lines_per_point.values() {
-        if num_covering_lines >= 2 {
-            num_points_covered_by_at_least_2_lines += 1;
-        }
-    }
+    num_covering_lines_per_point
+        .values()
+        .filter(|&&v| v >= 2)
+        .count()
+        .to_string()
 
-    num_points_covered_by_at_least_2_lines.to_string()
     // DEBUG
     //for y in 0..1000 {
     //    for x in 0..1000 {
@@ -602,7 +613,7 @@ pub fn solution_1() -> String {
     //            "{} ",
     //            match covering_lines_per_point.get(&p) {
     //                Some(&n) => n,
-    //                None => 0u32,
+    //                None => 0,
     //            }
     //        )
     //    }
@@ -611,5 +622,18 @@ pub fn solution_1() -> String {
 }
 
 pub fn solution_2() -> String {
-    "TODO".to_string()
+    let lines = INPUT.iter().map(|&l| Line::from_str(l).unwrap());
+
+    let mut num_covering_lines_per_point: HashMap<Point, u32> = HashMap::new();
+    for line in lines {
+        for point in line.as_points() {
+            *num_covering_lines_per_point.entry(point).or_insert(0) += 1;
+        }
+    }
+
+    num_covering_lines_per_point
+        .values()
+        .filter(|&&v| v >= 2)
+        .count()
+        .to_string()
 }

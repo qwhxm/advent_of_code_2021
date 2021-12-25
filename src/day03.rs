@@ -1,5 +1,7 @@
 //! <https://adventofcode.com/2021/day/3>
 
+use std::cmp::Ordering;
+
 const INPUT: [&str; 1000] = [
     "000011110010",
     "010000100100",
@@ -1003,27 +1005,42 @@ const INPUT: [&str; 1000] = [
     "001011000111",
 ];
 
-pub fn solution_1() -> String {
-    let mut frequencies_of_1_bits = [0u32; 12];
-    for bit_string in INPUT {
-        for (i, bit) in bit_string.chars().enumerate() {
-            if bit == '1' {
-                frequencies_of_1_bits[i] += 1;
-            }
+fn most_common_bit_at_index(i: usize, diagnostic_numbers: &[&str]) -> Option<char> {
+    let (mut num_0s, mut num_1s) = (0, 0);
+    for &diagnostic_number in diagnostic_numbers {
+        match diagnostic_number.chars().nth(i).unwrap() {
+            '0' => num_0s += 1,
+            '1' => num_1s += 1,
+            _ => panic!("Invalid bit"),
         }
     }
 
-    let gamma_rate_as_bit_string: String = frequencies_of_1_bits
-        .map(|freq| if freq > 500 { '1' } else { '0' })
-        .iter()
+    match num_0s.cmp(&num_1s) {
+        Ordering::Less => Some('1'),
+        Ordering::Greater => Some('0'),
+        Ordering::Equal => None,
+    }
+}
+
+fn least_common_bit_at_index(i: usize, diagnostic_numbers: &[&str]) -> Option<char> {
+    match most_common_bit_at_index(i, diagnostic_numbers) {
+        Some('0') => Some('1'),
+        Some('1') => Some('0'),
+        None => None,
+        Some(_) => panic!("Invalid bit"),
+    }
+}
+
+pub fn solution_1() -> String {
+    let gamma_rate_as_bit_string: String = (0..INPUT[0].len())
+        .map(|i| most_common_bit_at_index(i, &INPUT).unwrap())
         .collect();
     let gamma_rate = u32::from_str_radix(&gamma_rate_as_bit_string, 2).unwrap();
 
     // XXX It would be faster to just invert all bits in gamma_rate_as_bit_string, but this is
     //     simpler to understand.
-    let epsilon_rate_as_bit_string: String = frequencies_of_1_bits
-        .map(|freq| if freq > 500 { '0' } else { '1' })
-        .iter()
+    let epsilon_rate_as_bit_string: String = (0..INPUT[0].len())
+        .map(|i| least_common_bit_at_index(i, &INPUT).unwrap())
         .collect();
     let epsilon_rate = u32::from_str_radix(&epsilon_rate_as_bit_string, 2).unwrap();
 
@@ -1031,5 +1048,36 @@ pub fn solution_1() -> String {
 }
 
 pub fn solution_2() -> String {
-    "TODO".to_string()
+    let mut oxygen_generator_rating_candidates = Vec::from(INPUT);
+    for i in 0..INPUT[0].len() {
+        let correct_bit =
+            most_common_bit_at_index(i, &oxygen_generator_rating_candidates).unwrap_or('1');
+        oxygen_generator_rating_candidates = oxygen_generator_rating_candidates
+            .into_iter()
+            .filter(|c| c.chars().nth(i).unwrap() == correct_bit)
+            .collect();
+
+        if oxygen_generator_rating_candidates.len() == 1 {
+            break;
+        }
+    }
+    let oxygen_generator_rating =
+        u32::from_str_radix(oxygen_generator_rating_candidates[0], 2).unwrap();
+
+    let mut co2_scrubber_rating_candidates = Vec::from(INPUT);
+    for i in 0..INPUT[0].len() {
+        let correct_bit =
+            least_common_bit_at_index(i, &co2_scrubber_rating_candidates).unwrap_or('0');
+        co2_scrubber_rating_candidates = co2_scrubber_rating_candidates
+            .into_iter()
+            .filter(|c| c.chars().nth(i).unwrap() == correct_bit)
+            .collect();
+
+        if co2_scrubber_rating_candidates.len() == 1 {
+            break;
+        }
+    }
+    let co2_scrubber_rating = u32::from_str_radix(co2_scrubber_rating_candidates[0], 2).unwrap();
+
+    (oxygen_generator_rating * co2_scrubber_rating).to_string()
 }

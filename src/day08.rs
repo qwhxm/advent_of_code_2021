@@ -2,8 +2,8 @@
 //!
 //! I tried brute force and failed - wrong (too simple) implementation ran for several seconds,
 //! so I didn't even do a correct brute force implementation. But apparently this is easily
-//! brute-forceable (reddit.com/r/adventofcode/comments/rbj87a/comment/hnost1p) - sorted strings
-//! are faster than using HashMaps for everything, clearly.
+//! brute-forceable (<https://reddit.com/r/adventofcode/comments/rbj87a/comment/hnost1p>) - sorted
+//! strings are faster than using [std::collections::HashMap] for everything, clearly.
 
 use std::collections::{HashMap, HashSet};
 use std::str::FromStr;

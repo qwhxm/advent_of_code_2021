@@ -113,20 +113,20 @@ struct Heightmap([[u32; 100]; 100]);
 type Coordinates = (i32, i32);
 
 impl Heightmap {
+    fn from_rows(rows: &[&str; 100]) -> Heightmap {
+        let mut heightmap = [[0u32; 100]; 100];
+        for r in 0..100 {
+            let row: Vec<char> = rows[r].chars().collect();
+            for c in 0..100 {
+                heightmap[r][c] = row[c].to_digit(10).unwrap();
+            }
+        }
+        Heightmap(heightmap)
+    }
+
     fn height_at(&self, coords: &Coordinates) -> u32 {
         self.0[coords.0 as usize][coords.1 as usize]
     }
-}
-
-fn parse_heightmap(rows: &[&str; 100]) -> Heightmap {
-    let mut heightmap = [[0u32; 100]; 100];
-    for r in 0..100 {
-        let row: Vec<char> = rows[r].chars().collect();
-        for c in 0..100 {
-            heightmap[r][c] = row[c].to_digit(10).unwrap();
-        }
-    }
-    Heightmap(heightmap)
 }
 
 fn adjacent_coordinates(coords: &Coordinates) -> impl Iterator<Item = Coordinates> {
@@ -149,7 +149,7 @@ fn is_low_point(coords: &Coordinates, heightmap: &Heightmap) -> bool {
 }
 
 pub fn solution_1() -> String {
-    let heightmap = parse_heightmap(&INPUT);
+    let heightmap = Heightmap::from_rows(&INPUT);
 
     let mut low_points: Vec<Coordinates> = Vec::new();
     for r in 0..100 {
@@ -204,7 +204,7 @@ fn basin_for_low_point(low_point: &Coordinates, heightmap: &Heightmap) -> HashSe
 }
 
 pub fn solution_2() -> String {
-    let heightmap = parse_heightmap(&INPUT);
+    let heightmap = Heightmap::from_rows(&INPUT);
 
     let mut low_points: Vec<Coordinates> = Vec::new();
     for r in 0..100 {

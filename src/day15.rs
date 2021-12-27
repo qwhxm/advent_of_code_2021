@@ -1,6 +1,4 @@
 //! <https://adventofcode.com/2021/day/15>
-//!
-//! Part 2 takes quite a few seconds to run without optimizations, but with them it's OK.
 
 use simple_grid::{Grid, GridIndex};
 use std::collections::HashMap;

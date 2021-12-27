@@ -166,7 +166,7 @@ impl FromStr for FoldInstruction {
         match x_or_y {
             'x' => Ok(FoldInstruction::AlongColumn(index)),
             'y' => Ok(FoldInstruction::AlongRow(index)),
-            _ => Err(format!("Error parsing '{}'", s)),
+            _ => Err(format!("Cannot parse '{}'", s)),
         }
     }
 }

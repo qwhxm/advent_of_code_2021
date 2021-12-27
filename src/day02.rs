@@ -1023,7 +1023,7 @@ impl FromStr for Command {
             "forward" => Ok(Command::Forward(num_units)),
             "down" => Ok(Command::Down(num_units)),
             "up" => Ok(Command::Up(num_units)),
-            _ => Err(format!("Unknown command '{}'", command_name)),
+            _ => Err(format!("Cannot parse '{}'", s)),
         }
     }
 }

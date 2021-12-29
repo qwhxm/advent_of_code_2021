@@ -204,8 +204,8 @@ pub fn solution_2() -> String {
     let mut cavern = Cavern {
         grid: Grid::new_default(cavern_tile.grid.width() * 5, cavern_tile.grid.height() * 5),
     };
-    for r in 0..cavern.grid.width() {
-        for c in 0..cavern.grid.height() {
+    for r in 0..cavern.grid.height() {
+        for c in 0..cavern.grid.width() {
             let risk_in_original_tile = cavern_tile.grid
                 [GridIndex::new(c % cavern_tile.grid.width(), r % cavern_tile.grid.height())];
             let risk_increase = c / cavern_tile.grid.width() + r / cavern_tile.grid.height();

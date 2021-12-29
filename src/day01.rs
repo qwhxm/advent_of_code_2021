@@ -124,7 +124,7 @@ const INPUT: [u32; 2000] = [
 ];
 
 pub fn solution_1() -> String {
-    let mut num_depth_increases = 0u32;
+    let mut num_depth_increases = 0;
     for (i, &depth) in INPUT.iter().enumerate().skip(1) {
         let previous_depth = INPUT[i - 1];
         if depth > previous_depth {
@@ -135,7 +135,7 @@ pub fn solution_1() -> String {
 }
 
 pub fn solution_2() -> String {
-    let mut num_depth_increases = 0u32;
+    let mut num_depth_increases = 0;
     for i in 3..INPUT.len() {
         // XXX This is not how a sliding window should be done, but it's good enough here.
         let current_window_sum = INPUT[i] + INPUT[i - 1] + INPUT[i - 2];

@@ -801,7 +801,7 @@ lazy_static! {
 
 fn parse_beacons(input_beacons: &[&str]) -> HashMap<ScannerId, Vec<Point3<f64>>> {
     let mut beacons_per_scanner = HashMap::new();
-    let mut current_scanner = 0u8;
+    let mut current_scanner = 0;
     for &row in input_beacons.iter().skip(1) {
         if row.is_empty() {
             continue;
@@ -875,9 +875,9 @@ pub fn solution_1() -> String {
 
     // Consider scanner 0's frame of reference to be the absolute frame of reference, and map
     // beacon coordinates from all other scanners to this frame of reference.
-    let mut beacons_absolute_per_scanner = HashMap::from([(0u8, beacons_per_scanner[&0].clone())]);
-    let mut mapped_scanners = HashSet::from([0u8]);
-    let mut scanners_to_process = Vec::from([0u8]);
+    let mut beacons_absolute_per_scanner = HashMap::from([(0, beacons_per_scanner[&0].clone())]);
+    let mut mapped_scanners = HashSet::from([0]);
+    let mut scanners_to_process = Vec::from([0]);
     while !(mapped_scanners.len() == beacons_per_scanner.len()) {
         let scanner_to_process = scanners_to_process.pop().unwrap();
 
@@ -927,10 +927,10 @@ pub fn solution_2() -> String {
     // Consider scanner 0's frame of reference to be the absolute frame of reference, and map
     // beacon coordinates from all other scanners to this frame of reference; also determine
     // absolute coordinates of the scanners themselves in the process.
-    let mut beacons_absolute_per_scanner = HashMap::from([(0u8, beacons_per_scanner[&0].clone())]);
-    let mut scanner_coordinates = HashMap::from([(0u8, Point3::new(0.0, 0.0, 0.0))]);
-    let mut mapped_scanners = HashSet::from([0u8]);
-    let mut scanners_to_process = Vec::from([0u8]);
+    let mut beacons_absolute_per_scanner = HashMap::from([(0, beacons_per_scanner[&0].clone())]);
+    let mut scanner_coordinates = HashMap::from([(0, Point3::new(0.0, 0.0, 0.0))]);
+    let mut mapped_scanners = HashSet::from([0]);
+    let mut scanners_to_process = Vec::from([0]);
     while !(mapped_scanners.len() == beacons_per_scanner.len()) {
         let scanner_to_process = scanners_to_process.pop().unwrap();
 

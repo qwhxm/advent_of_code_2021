@@ -114,7 +114,7 @@ type Coordinates = (i32, i32);
 
 impl Heightmap {
     fn from_rows(rows: &[&str; 100]) -> Heightmap {
-        let mut heightmap = [[0u32; 100]; 100];
+        let mut heightmap = [[0; 100]; 100];
         for r in 0..100 {
             let row: Vec<char> = rows[r].chars().collect();
             for c in 0..100 {

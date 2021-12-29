@@ -21,7 +21,7 @@ struct LanternfishPopulation {
 
 impl LanternfishPopulation {
     fn from_individual_timers(timers: &[u32]) -> LanternfishPopulation {
-        let mut num_fish_per_reproduction_timer = [0u128; (TIMER_MAX + 1) as usize];
+        let mut num_fish_per_reproduction_timer = [0; (TIMER_MAX + 1) as usize];
         for &timer in timers {
             num_fish_per_reproduction_timer[timer as usize] += 1;
         }
@@ -36,7 +36,7 @@ impl LanternfishPopulation {
     }
 
     fn tick(&mut self) {
-        let mut new_num_fish_per_reproduction_timer = [0u128; (TIMER_MAX + 1) as usize];
+        let mut new_num_fish_per_reproduction_timer = [0; (TIMER_MAX + 1) as usize];
         for t in 0..self.num_fish_per_reproduction_timer.len() {
             let num_t_fish = self.num_fish_per_reproduction_timer[t];
             if t == 0 {

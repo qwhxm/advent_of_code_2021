@@ -617,7 +617,7 @@ struct Board {
 
 impl Board {
     fn from_rows(rows: &[&str; 5]) -> Board {
-        let mut grid = [[0u32; 5]; 5];
+        let mut grid = [[0; 5]; 5];
         for r in 0..5 {
             let row_split: Vec<&str> = rows[r].split_whitespace().collect();
             for c in 0..5 {
@@ -662,7 +662,7 @@ impl Board {
     }
 
     fn sum_of_unmarked(&self) -> u32 {
-        let mut sum_of_unmarked = 0u32;
+        let mut sum_of_unmarked = 0;
         for r in 0..5 {
             for c in 0..5 {
                 if !self.marked[r][c] {
@@ -676,7 +676,7 @@ impl Board {
 
 fn parse_boards(input_boards: &[&str]) -> Vec<Board> {
     let mut boards = Vec::new();
-    let mut i = 0usize;
+    let mut i = 0;
     loop {
         let rows = &input_boards[i..i + 5].try_into().unwrap();
         boards.push(Board::from_rows(rows));

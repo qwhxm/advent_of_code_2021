@@ -485,6 +485,7 @@ impl FromStr for RebootStep {
 ///
 /// The returned vector contains up to 6 cuboids that together form the difference shape.
 /// If the given cuboids do not intersect, the vector contains 1 element, `minuend`.
+/// If `minuend` is entirely contained in `subtrahend`, the returned vector is empty.
 fn difference(minuend: AABB, subtrahend: AABB) -> Vec<AABB> {
     let mut difference_parts = Vec::new();
     let mut remaining_minuend = minuend;

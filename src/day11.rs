@@ -30,7 +30,7 @@ impl OctopusGrid {
     }
 
     fn adjacent_coordinates(&self, coords: Coordinates) -> Vec<Coordinates> {
-        vec![
+        [
             (coords.0 - 1, coords.1 - 1),
             (coords.0 - 1, coords.1),
             (coords.0 - 1, coords.1 + 1),

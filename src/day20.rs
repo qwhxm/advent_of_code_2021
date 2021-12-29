@@ -158,7 +158,7 @@ impl Image {
     }
 
     fn get_neighbourhood_value(&self, c: i32, r: i32) -> u16 {
-        let neighbourhood_as_bit_string = vec![
+        let neighbourhood_as_bit_string = [
             (c - 1, r - 1),
             (c, r - 1),
             (c + 1, r - 1),

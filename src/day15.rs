@@ -136,7 +136,7 @@ impl Cavern {
         }
 
         let (c, r) = (node.column() as i32, node.row() as i32);
-        vec![(c, r - 1), (c, r + 1), (c - 1, r), (c + 1, r)]
+        [(c, r - 1), (c, r + 1), (c - 1, r), (c + 1, r)]
             .into_iter()
             .filter(|&pi| is_valid(pi, &self.grid))
             .map(|(c, r)| GridIndex::new(c as usize, r as usize))

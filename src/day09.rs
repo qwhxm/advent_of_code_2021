@@ -139,7 +139,7 @@ fn adjacent_coordinates(coords: &Coordinates) -> impl Iterator<Item = Coordinate
     let adjacent_left = (coords.0, coords.1 - 1);
     let adjacent_right = (coords.0, coords.1 + 1);
 
-    vec![adjacent_up, adjacent_down, adjacent_left, adjacent_right]
+    [adjacent_up, adjacent_down, adjacent_left, adjacent_right]
         .into_iter()
         .filter(are_valid)
 }

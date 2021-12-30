@@ -604,21 +604,6 @@ pub fn solution_1() -> String {
         .filter(|&&v| v >= 2)
         .count()
         .to_string()
-
-    // DEBUG
-    //for y in 0..1000 {
-    //    for x in 0..1000 {
-    //        let p = Point { x, y };
-    //        print!(
-    //            "{} ",
-    //            match covering_lines_per_point.get(&p) {
-    //                Some(&n) => n,
-    //                None => 0,
-    //            }
-    //        )
-    //    }
-    //    println!();
-    //}
 }
 
 pub fn solution_2() -> String {
@@ -637,3 +622,18 @@ pub fn solution_2() -> String {
         .count()
         .to_string()
 }
+
+// DEBUG
+//for y in 0..1000 {
+//    for x in 0..1000 {
+//        let p = Point { x, y };
+//        print!(
+//            "{} ",
+//            match num_covering_lines_per_point.get(&p) {
+//                Some(&n) => n,
+//                None => 0,
+//            }
+//        )
+//    }
+//    println!();
+//}

@@ -82,7 +82,7 @@ pub fn solution_1() -> String {
                 target_x_range: INPUT_TARGET_X_RANGE,
                 target_y_range: INPUT_TARGET_Y_RANGE,
             };
-            if simulation.run() == true {
+            if simulation.run() {
                 max_y_coord = cmp::max(max_y_coord, simulation.max_y_coord);
             }
         }
@@ -105,7 +105,7 @@ pub fn solution_2() -> String {
                 target_x_range: INPUT_TARGET_X_RANGE,
                 target_y_range: INPUT_TARGET_Y_RANGE,
             };
-            if simulation.run() == true {
+            if simulation.run() {
                 num_successful_simulations += 1;
             }
         }

@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 grid = "0.6.0" # simple-grid is better.
+itertools = "0.10.3"
 lazy_static = "1.4.0"
 nalgebra = "0.29.0"
 parry3d-f64 = "0.7.1"

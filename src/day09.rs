@@ -173,29 +173,28 @@ pub fn solution_1() -> String {
 /// Thanks to guarantees on input heightmaps ("all locations [with height less that 9] will always
 /// be part of exactly one basin"), a basin is a contiguous area delimited by 9-height locations.
 fn basin_for_low_point(low_point: &Coordinates, heightmap: &Heightmap) -> HashSet<Coordinates> {
-    /// Returns all coordinates reachable from `initial_coords`, using breadth-first search with
+    /// Returns all nodes reachable from the given node, using breadth-first search with
     /// the given successor function.
     fn bfs_connected_component<F, I>(
-        initial_coords: &Coordinates,
+        initial_node: &Coordinates,
         successors: F,
     ) -> HashSet<Coordinates>
     where
         F: Fn(&Coordinates) -> I,
         I: IntoIterator<Item = Coordinates>,
     {
-        let mut seen = HashSet::from([*initial_coords]);
-        let mut to_be_visited = VecDeque::from([*initial_coords]);
+        let mut nodes_seen = HashSet::from([*initial_node]);
+        let mut nodes_to_be_visited = VecDeque::from([*initial_node]);
 
-        while !to_be_visited.is_empty() {
-            let coords = to_be_visited.pop_front().unwrap();
-            for successor in successors(&coords) {
-                if !seen.contains(&successor) {
-                    seen.insert(successor);
-                    to_be_visited.push_back(successor);
+        while let Some(node) = nodes_to_be_visited.pop_front() {
+            for successor in successors(&node) {
+                if !nodes_seen.contains(&successor) {
+                    nodes_seen.insert(successor);
+                    nodes_to_be_visited.push_back(successor);
                 }
             }
         }
-        seen
+        nodes_seen
     }
 
     bfs_connected_component(low_point, |c| {

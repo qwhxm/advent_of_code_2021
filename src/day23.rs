@@ -211,14 +211,14 @@ impl BurrowState {
             I: IntoIterator<Item = GridIndex>,
         {
             let mut distances = HashMap::from([(initial_node, 0)]);
-            let mut to_be_visited = VecDeque::from([initial_node]);
+            let mut nodes_to_be_visited = VecDeque::from([initial_node]);
 
-            while let Some(node) = to_be_visited.pop_front() {
+            while let Some(node) = nodes_to_be_visited.pop_front() {
                 let distance = distances[&node];
                 for successor in successors(node) {
                     if let Entry::Vacant(entry) = distances.entry(successor) {
                         entry.insert(distance + 1);
-                        to_be_visited.push_back(successor);
+                        nodes_to_be_visited.push_back(successor);
                     }
                 }
             }
@@ -331,12 +331,12 @@ impl BurrowState {
 
 fn least_energy_to_organize(initial_state: &BurrowState) -> u32 {
     #[derive(Eq, PartialEq)]
-    struct FrontierElement {
+    struct FrontierItem {
         node: BurrowState,
         f_score: u32,
     }
 
-    impl Ord for FrontierElement {
+    impl Ord for FrontierItem {
         fn cmp(&self, other: &Self) -> Ordering {
             // The comparison is reversed so we can use [std::collections::BinaryHeap] as a
             // min-heap.
@@ -346,7 +346,7 @@ fn least_energy_to_organize(initial_state: &BurrowState) -> u32 {
         }
     }
 
-    impl PartialOrd for FrontierElement {
+    impl PartialOrd for FrontierItem {
         fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
             Some(self.cmp(other))
         }
@@ -360,7 +360,7 @@ fn least_energy_to_organize(initial_state: &BurrowState) -> u32 {
     ) -> u32 {
         let mut final_distances = HashMap::new();
         let mut tentative_distances = HashMap::from([(start_node.clone(), 0)]);
-        let mut frontier = BinaryHeap::from([FrontierElement {
+        let mut frontier = BinaryHeap::from([FrontierItem {
             node: start_node.clone(),
             f_score: 0,
         }]);
@@ -368,7 +368,7 @@ fn least_energy_to_organize(initial_state: &BurrowState) -> u32 {
         loop {
             match frontier.pop() {
                 None => panic!("Destination node not reachable"),
-                Some(FrontierElement { node, .. }) => {
+                Some(FrontierItem { node, .. }) => {
                     // Tentative distance to the node with the lowest f-score is now the final
                     // distance.
                     // XXX Can't remove from `tentative_distances` here because there may be
@@ -381,8 +381,8 @@ fn least_energy_to_organize(initial_state: &BurrowState) -> u32 {
                     }
 
                     // Try to improve tentative distances (and consequently also f-scores) of
-                    // successors of the newly finalized node (only to those successors whose
-                    // distance is not finalized yet).
+                    // successors of the newly finalized node (only those successors whose distance
+                    // is not finalized yet).
                     for (succ, edge_len) in successors(&node)
                         .into_iter()
                         .filter(|(succ, _)| !final_distances.contains_key(succ))
@@ -392,7 +392,7 @@ fn least_energy_to_organize(initial_state: &BurrowState) -> u32 {
                             < *tentative_distances.get(&succ).unwrap_or(&u32::MAX)
                         {
                             tentative_distances.insert(succ.clone(), distance_through_current_node);
-                            frontier.push(FrontierElement {
+                            frontier.push(FrontierItem {
                                 node: succ.clone(),
                                 f_score: distance_through_current_node + h_score(&succ),
                             });

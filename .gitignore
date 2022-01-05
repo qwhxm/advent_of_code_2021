@@ -1,3 +1,7 @@
-/.idea
-/aoc2021.iml
-/target
+*
+
+!/.gitignore
+!/Cargo.lock
+!/Cargo.toml
+!/README.md
+!/src/*.rs
